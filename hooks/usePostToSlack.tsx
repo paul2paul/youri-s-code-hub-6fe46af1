@@ -19,7 +19,7 @@ export function usePostToSlack() {
     mutationFn: async (params: PostToSlackParams): Promise<PostToSlackResult> => {
       const { data, error } = await invokeWithRetry<PostToSlackResult>(
         'post-to-slack',
-        params,
+        params as unknown as Record<string, unknown>,
         { maxRetries: 2, baseDelay: 1000 }
       );
 
