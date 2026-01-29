@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Youri Corporate Governance - Design System
+   Deep navy professionalism with warm amber accents
+   French elegance meets modern legal tech
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
+
+    /* Cards and surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    /* Popover/dialogs */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary - Deep Navy */
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary - Slate */
+    --secondary: 215 20% 94%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted tones */
+    --muted: 215 20% 94%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent - Warm Amber */
+    --accent: 38 92% 50%;
+    --accent-foreground: 222 47% 11%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Success - Corporate Green */
+    --success: 160 84% 39%;
+    --success-foreground: 210 40% 98%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+
+    /* Borders and inputs */
+    --border: 215 20% 88%;
+    --input: 215 20% 88%;
+    --ring: 38 92% 50%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 222 35% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 35% 22%;
+    --sidebar-ring: 38 92% 50%;
+
+    /* Custom - Navy shades */
+    --navy-50: 222 47% 96%;
+    --navy-100: 222 47% 92%;
+    --navy-200: 222 47% 82%;
+    --navy-300: 222 47% 65%;
+    --navy-400: 222 47% 48%;
+    --navy-500: 222 47% 35%;
+    --navy-600: 222 47% 25%;
+    --navy-700: 222 47% 18%;
+    --navy-800: 222 47% 11%;
+    --navy-900: 222 47% 6%;
+
+    /* Custom - Amber shades */
+    --amber-50: 38 100% 97%;
+    --amber-100: 38 100% 93%;
+    --amber-200: 38 100% 83%;
+    --amber-300: 38 100% 70%;
+    --amber-400: 38 92% 55%;
+    --amber-500: 38 92% 50%;
+    --amber-600: 30 90% 45%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 222 35% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 35% 15%;
+    --muted-foreground: 215 16% 65%;
+
+    --accent: 38 92% 50%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 35% 18%;
+    --input: 222 35% 18%;
+    --ring: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  /* Hero section styling */
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(222 47% 18%) 50%, hsl(222 35% 22%) 100%);
+  }
+
+  /* Subtle card hover effect */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  .card-hover:hover {
+    @apply shadow-lg -translate-y-0.5;
+  }
+
+  /* Glass effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Status badges */
+  .status-todo {
+    @apply bg-secondary text-secondary-foreground;
+  }
+  .status-in-progress {
+    @apply bg-amber-100 text-amber-800;
+  }
+  .status-done {
+    @apply bg-emerald-100 text-emerald-800;
+  }
+  .status-blocked {
+    @apply bg-red-100 text-red-800;
+  }
+  .status-late {
+    @apply bg-red-200 text-red-900;
+  }
+
+  /* Smooth page transitions */
+  .page-enter {
+    animation: pageEnter 0.4s ease-out forwards;
+  }
+
+  @keyframes pageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus ring for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Draft document banner */
+  .draft-banner {
+    @apply bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-lg text-sm font-medium;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(30 90% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animated underline */
+  .animated-underline {
+    @apply relative;
+  }
+  .animated-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300;
+  }
+  .animated-underline:hover::after {
+    @apply w-full;
+  }
+}
