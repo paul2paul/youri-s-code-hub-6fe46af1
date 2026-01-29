@@ -1,0 +1,29 @@
+project_id = "lskbojgreapsonnatjnr"
+
+[functions.analyze-governance]
+verify_jwt = true
+
+[functions.draft-agm-pack]
+verify_jwt = true
+
+[functions.generate-timeline]
+verify_jwt = true
+
+[functions.webhook-trigger]
+verify_jwt = true
+
+[functions.governance-advisor]
+verify_jwt = true
+
+[functions.generate-convocations]
+verify_jwt = true
+
+[functions.generate-attendance-sheet]
+verify_jwt = true
+
+[functions.extract-stakeholders]
+verify_jwt = true
+
+# slack-webhook uses Slack signature verification instead of JWT
+[functions.slack-webhook]
+verify_jwt = false

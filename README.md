@@ -1,73 +1,134 @@
-# Welcome to your Lovable project
+# Youri - SAS Governance Management
 
-## Project info
+Youri is a SaaS application that helps French SAS (Société par Actions Simplifiée) companies manage their annual governance obligations, from accounts approval to AGM documentation.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Document Management**: Upload and organize statutory documents (Statuts, Pacte d'associés, Cap tables)
+- **Governance Profile Analysis**: AI-powered analysis of governance rules from uploaded documents
+- **Timeline Generation**: Automatic retro-planning for AGM deadlines based on fiscal year end
+- **AGM Documentation**: Generate draft convocations, PV templates, and resolutions
+- **Stakeholder Management**: Track shareholders and their participation
+- **Governance Advisor**: AI assistant for governance questions
+- **Slack Integration**: Receive reminders and upload documents via Slack
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React, TypeScript, Vite, TailwindCSS, shadcn/ui
+- **Backend**: Supabase (PostgreSQL, Auth, Storage, Edge Functions)
+- **AI**: Lovable AI Gateway (Gemini models)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+
+- npm or yarn
+- Supabase account
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# Clone the repository
+git clone <repository-url>
+cd youri
 
-Follow these steps:
+# Install dependencies
+npm install
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Copy environment template
+cp .env.example .env
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Edit .env with your Supabase credentials
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Environment Variables
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Create a `.env` file with:
+
+```
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-key
+```
+
+### Development
+
+```bash
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:5173`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Running Tests
 
-**Use GitHub Codespaces**
+```bash
+# Run frontend tests
+npm test
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Run edge function tests (Deno)
+cd supabase/functions
+deno test --allow-env --allow-net
+```
 
-## What technologies are used for this project?
+### Building for Production
 
-This project is built with:
+```bash
+npm run build
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Project Structure
 
-## How can I deploy this project?
+```
+src/
+├── components/         # React components
+│   ├── common/        # Shared components (ErrorBoundary, etc.)
+│   └── ui/            # shadcn/ui components
+├── contexts/          # React contexts (AuthContext)
+├── hooks/             # Custom React hooks
+├── integrations/      # Third-party integrations (Supabase)
+├── lib/               # Utility functions
+├── pages/             # Page components
+├── test/              # Test utilities and mocks
+└── types/             # TypeScript type definitions
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+supabase/
+├── functions/         # Edge functions
+│   ├── _shared/       # Shared utilities (CORS, validation, sanitization)
+│   ├── analyze-governance/
+│   ├── draft-agm-pack/
+│   ├── extract-stakeholders/
+│   ├── generate-attendance-sheet/
+│   ├── generate-convocations/
+│   ├── generate-timeline/
+│   ├── governance-advisor/
+│   ├── slack-webhook/
+│   └── webhook-trigger/
+└── config.toml        # Supabase configuration
+```
 
-## Can I connect a custom domain to my Lovable project?
+## Edge Functions
 
-Yes, you can!
+| Function | Purpose | Auth |
+|----------|---------|------|
+| `analyze-governance` | Extract governance rules from documents | JWT |
+| `draft-agm-pack` | Generate AGM documentation drafts | JWT |
+| `extract-stakeholders` | Extract shareholders from cap table | JWT |
+| `generate-attendance-sheet` | Generate AGM attendance sheet | JWT |
+| `generate-convocations` | Generate shareholder convocations | JWT |
+| `generate-timeline` | Create task timeline for governance cycle | JWT |
+| `governance-advisor` | AI assistant for governance questions | JWT |
+| `slack-webhook` | Handle Slack events and messages | Slack Signature |
+| `webhook-trigger` | Send notifications for due tasks | JWT |
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Security
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- All edge functions require JWT authentication (except `slack-webhook` which uses Slack signature verification)
+- CORS is restricted to allowed origins
+- Input validation on all endpoints
+- AI prompt injection protection for user-submitted content
+- Environment variables should never be committed to git
+
+## License
+
+Proprietary - All rights reserved.
