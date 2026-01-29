@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/common/ProtectedRoute";
 
 // Import pages from root /pages directory
 import Dashboard from "@/pages/Dashboard";
@@ -21,27 +23,29 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/governance" element={<Governance />} />
-          <Route path="/timeline" element={<Timeline />} />
-          <Route path="/stakeholders" element={<Stakeholders />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/company-setup" element={<CompanySetup />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/advisor" element={<Advisor />} />
-          <Route path="/year-input" element={<YearInput />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
+            <Route path="/governance" element={<ProtectedRoute><Governance /></ProtectedRoute>} />
+            <Route path="/timeline" element={<ProtectedRoute><Timeline /></ProtectedRoute>} />
+            <Route path="/stakeholders" element={<ProtectedRoute><Stakeholders /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/company-setup" element={<ProtectedRoute><CompanySetup /></ProtectedRoute>} />
+            <Route path="/advisor" element={<ProtectedRoute><Advisor /></ProtectedRoute>} />
+            <Route path="/year-input" element={<ProtectedRoute><YearInput /></ProtectedRoute>} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
