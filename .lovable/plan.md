@@ -1,55 +1,40 @@
 
-## Goal
-Get the existing code from **GitHub repo `paul2paul/youri-v2-`** running in this Lovable project **without modifying the code**, then **publish/deploy** it.
+# Plan: Fix youri-v2 Project Structure
 
-## What’s important to clarify (blocking)
-1. **Exact repo URL**: Please share the full URL (copy/paste) to `paul2paul/youri-v2-` so we can confirm we’re targeting the right repository (GitHub search currently doesn’t surface it reliably).
-2. **Repo content type**: Confirm it contains a standard frontend project (e.g., `package.json`, `src/`, `vite.config.*`). If it’s not a Vite/React app, it won’t run in Lovable as-is.
+## Summary
+The youri-v2 code has synced from GitHub but is in the wrong location. The application code is at the root level instead of inside `src/`, so the app shows a blank template instead of your Youri governance application.
 
-## Reality check (constraint)
-Lovable doesn’t “import” an existing GitHub repo into an already-created Lovable project the way some platforms do. The workable path is to:
-- **Connect this Lovable project to GitHub**, then
-- **Bring your `youri-v2-` code into the connected repo via Git operations** (copy/merge), and
-- Let the **GitHub ↔ Lovable sync** update the Lovable project automatically.
+## What Needs to Be Fixed
 
-## Plan (no-code-change deployment approach)
-### Phase 1 — Validate the source repo
-- Open the shared `paul2paul/youri-v2-` URL and verify:
-  - It’s public and accessible
-  - It has the full application code (not empty, not only docs)
-  - It includes required files to run (at minimum `package.json`)
+### The Problem
+- **Your pages** are in `/pages/Dashboard.tsx`, `/pages/Documents.tsx`, etc.
+- **The app is looking** in `/src/pages/` which only has the blank template
+- **Routing** in `src/App.tsx` only connects to the blank Index page
 
-### Phase 2 — Connect this Lovable project to GitHub (target repo)
-- In Lovable: Project Settings → GitHub → **Connect project**
-- Choose where Lovable should create or connect the repo used for syncing this project.
-- Confirm the sync is active (a commit from Lovable should appear in the connected GitHub repo).
+### The Solution
+Update `src/App.tsx` to import from the correct locations and add all routes.
 
-### Phase 3 — Move `youri-v2-` code into the Lovable-connected repo (no edits, just replace)
-- On your side (fastest + safest, and keeps code unchanged):
-  1. Clone the Lovable-connected repo locally
-  2. Replace its contents with the contents of `youri-v2-` (file-for-file copy)
-  3. Commit and push
-- Alternatively (if you prefer GitHub UI):
-  - Upload/replace files in the Lovable-connected repo directly on GitHub and commit
+## Technical Changes
 
-### Phase 4 — Confirm Lovable builds and runs
-- Wait for the sync to bring the code into Lovable.
-- Open the Preview URL and verify:
-  - App loads without errors
-  - Routing works (especially if it uses React Router)
-  - Any required environment variables are identified (if missing, the app may load but features will fail)
+### 1. Update src/App.tsx routing
+- Import pages from `/pages/` instead of `/src/pages/`
+- Add routes for: Dashboard, Documents, Governance, Timeline, Stakeholders, Settings, CompanySetup, Auth, Advisor, YearInput
+- Set Dashboard as the home page (`/`)
 
-### Phase 5 — Publish (deploy) without functional changes
-- In Lovable: **Share → Publish**
-- After publish, verify the Published URL behaves the same as Preview.
+### 2. Verify import paths work
+The pages use `@/` aliases that should resolve to the root, so imports like:
+- `@/components/layout/AppLayout` → `/components/layout/AppLayout.tsx`
+- `@/hooks/useCompany` → `/hooks/useCompany.tsx`
 
-## Post-deploy checklist (so you can safely make the repo private again)
-- Confirm the app is published and accessible at the Lovable Published URL
-- Confirm no runtime dependencies still require fetching private GitHub assets at runtime
-- Then you can set `youri-v2-` back to **private** (the Lovable deployment won’t depend on it unless you’re loading assets directly from GitHub URLs)
+If the aliases don't resolve correctly, we may need to update `vite.config.ts` or `tsconfig.json`.
 
-## What I need from you to proceed cleanly
-- The exact GitHub URL to `paul2paul/youri-v2-`
-- Whether you want the Lovable-connected repo to be:
-  - the same `youri-v2-` repo, or
-  - a new repo created by Lovable (recommended to avoid accidental overwrite)
+## Expected Result
+After this fix, your Youri governance application will load properly with:
+- Dashboard as the home page
+- Navigation working between all pages
+- French SAS governance workflow fully functional
+
+## Files to Modify
+1. `src/App.tsx` - Update imports and add all routes
+
+**Approve this plan to implement the fix.**
